@@ -36,4 +36,5 @@ jobs:
           key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
           script: |
             cd ~/devJeo
-            pm2 restart jeopardy-app || pm2 start app.js --name jeopardy-app
+            pm2 restart quizlam || pm2 start quizlambd/server/server.js --name quizlam
+

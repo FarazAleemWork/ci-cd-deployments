@@ -25,7 +25,7 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: jeopardydevuser
           key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
-          source: "devJeo/quizlambd,devJeo/quizlamfd"
+          source: "devJeo/quizlambd devJeo/quizlamfd"
           target: "~/devJeo"
 
       - name: SSH to Azure VM and restart app

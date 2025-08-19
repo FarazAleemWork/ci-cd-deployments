@@ -1,0 +1,43 @@
+name: Deploy Jeopardy App to Azure VM
+
+on:
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+  push:
+    branches:
+      - main   # Optional: deploy on CI/CD repo main pushes
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this CI/CD repo (for workflow files)
+        uses: actions/checkout@v3
+
+      - name: Checkout your Jeopardy app repo
+        uses: actions/checkout@v3
+        with:
+          repository: yourusername/jeopardy-app  # Change this to your app repo name
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # See next step
+          path: app
+
+      - name: Copy app files to Azure VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: jeopardydevuser
+          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+          source: "app/"
+          target: "~/devJeo"
+
+      - name: SSH and restart app
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: jeopardydevuser
+          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/devJeo
+            npm install
+            pm2 restart jeopardy-app || pm2 start app.js --name jeopardy-app
+

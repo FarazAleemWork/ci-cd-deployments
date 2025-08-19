@@ -1,0 +1,2 @@
+# Ignore the variables.sh file in createVMScripts
+createVMScripts/variables.sh

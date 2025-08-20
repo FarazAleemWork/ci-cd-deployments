@@ -42,4 +42,8 @@ jobs:
           port: 22
           script: |
             cd ~/devJeo
-            pm2 startOrRestart quizlambd/server/server.js --name quizlam
+            if pm2 list | grep -q "quizlam"; then
+            pm2 reload quizlam
+            else
+            pm2 start quizlambd/server/server.js --name quizlam
+            fi 

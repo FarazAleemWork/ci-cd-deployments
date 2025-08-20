@@ -42,7 +42,7 @@ jobs:
           port: 22
           script: |
             cd ~/devJeo
-            pm2 startOrRestart quizlambd/server.js --name quizlam
+            pm2 startOrRestart quizlambd/server/server.js --name quizlam
       
       - name: Check PM2 Logs on Failure
         if: failure()
@@ -53,5 +53,5 @@ jobs:
           key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            pm2 logs quizlam --lines 100
+            pm2 logs quizlam --lines 50
             echo "Deployment failed, check the logs ^^ for details."

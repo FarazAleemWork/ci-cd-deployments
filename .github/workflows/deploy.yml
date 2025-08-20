@@ -28,7 +28,7 @@ jobs:
           username: jeopardydevuser
           key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
           port: 22
-          source: devJeo/**
+          source: "devJeo/quizlambd/, devJeo/quizlamfd/"
           target: ~/devJeo
           strip_components: 1
           overwrite: true
@@ -43,15 +43,3 @@ jobs:
           script: |
             cd ~/devJeo
             pm2 startOrRestart quizlambd/server/server.js --name quizlam
-      
-      - name: Check PM2 Logs on Failure
-        if: failure()
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: jeopardydevuser
-          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            pm2 logs quizlam --lines 50
-            echo "Deployment failed, check the logs ^^ for details."

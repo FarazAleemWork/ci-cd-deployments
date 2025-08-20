@@ -26,9 +26,7 @@ jobs:
           username: jeopardydevuser
           key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
           port: 22
-          source: |
-            devJeo/quizlambd/**
-            devJeo/quizlamfd/**
+          source: devJeo/quizlambd/** devJeo/quizlamfd/**
           target: ~/devJeo
           strip_components: 1
           overwrite: true
